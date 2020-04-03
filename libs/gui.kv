@@ -1,0 +1,97 @@
+#:kivy 1.10.1
+
+<Toolbar@BoxLayout>
+
+<SmartButton>:
+    name: 'button_name'
+    text: 'test'
+
+<SavePopup>:
+    title: 'Save status'
+    size_hint: (.5, .5)
+    description: 'Screenshot has been saved'
+    BoxLayout:
+        orientation: 'vertical'
+        SmartLabel:
+            text: root.description
+            prefered_font_size: 30
+        SmartButton:
+            size_hint: (1, 0.2)
+            text: 'OK'
+            on_release: root.dismiss()
+
+
+<ChooseFile>:
+    title: 'Choose source file'
+    size_hint: (.5, .5)
+    on_dismiss: app.end_save()
+    BoxLayout:
+        orientation: 'vertical'
+        FileChooserListView:
+            id: list_view
+            path: '.'
+            show_hidden: True
+            on_submit: 
+                app.select(list_view.path, list_view.selection), 
+                root.dismiss()
+        BoxLayout:
+            size_hint: (1, .2)
+            SmartButton:
+                text: 'Choose'
+                on_release: 
+                    app.select(list_view.path, list_view.selection), 
+                    root.dismiss()
+            SmartButton:
+                text: 'Cancel'
+                on_release: 
+                    app.end_save(),
+                    root.dismiss()
+
+BoxLayout:
+    orientation: 'vertical'
+    Toolbar:
+        orientation: 'horizontal'
+        size_hint: (1, .1)
+        BoxLayout:
+            orientation: 'vertical'
+            SmartLabel:
+                text: 'Hbarchart source file:'
+            SmartButton:
+                id: hbarchart
+                name: 'hbarchart_source_button'
+                text: 'hbarchart_test.csv'
+                on_release: app.choose_file('hbarchart')
+        SmartButton:
+            id: hbarchart_button
+            name: 'hbarchart_button'
+            text: 'Show horizontal barchart'
+            on_release: app.print_chart('hbarchart'), app.change_button_color(args)
+        BoxLayout:
+            orientation: 'vertical'
+            SmartLabel:
+                text: 'Stacked barchart source file:'
+            SmartButton:
+                id: stacked
+                name: 'stacked_source_button'
+                text: 'stacked_test.csv'
+                on_release: app.choose_file('stacked')
+        SmartButton:
+            id: stacked_button
+            name: 'stacked_button'
+            text: 'Show stacked hortizontal barchart'
+            on_release: app.print_chart('stacked'), app.change_button_color(args)
+        BoxLayout:
+            orientation: 'vertical'
+            SmartButton:
+                text: 'Toggle grid and axis'
+                on_release: app.grid_and_color()
+            SmartButton:
+                text: 'Toggle background and contours color'
+                on_release: app.grid_and_color(True)
+        SmartButton:
+            text: 'Save this chart'
+            on_release: app.save_chart()
+
+    BoxLayout:
+        orientation: 'vertical'
+

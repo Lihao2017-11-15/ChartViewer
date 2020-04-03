@@ -1,0 +1,7 @@
+*.csv
+*.txt
+*.pyc
+.vscode
+.pytest_cache
+.__pychache__
+TODO
